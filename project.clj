@@ -1,4 +1,10 @@
-(defproject mike/yada-component "0.0.1-SNAPSHOT"
+(defproject org.clojars.pet/yada-component "0.0.1-SNAPSHOT"
+  :description "A yada webservice component."
+  :url "https://github.com/mike706574/yada-component.git"
+  :license {:name "Eclipse Public License - v 1.0"
+            :url "http://www.eclipse.org/legal/epl-v10.html"
+            :distribution :repo
+            :comments "same as Clojure"}
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [com.taoensso/timbre "4.8.0"]
                  [com.stuartsierra/component "0.3.1"]

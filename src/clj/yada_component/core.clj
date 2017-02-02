@@ -1,5 +1,6 @@
 (ns yada-component.core
-  (:require [com.stuartsierra.component :as component]
+  (:require [clojure.string :as str]
+            [com.stuartsierra.component :as component]
             [taoensso.timbre :as log]
             [yada.yada :as yada]
             [bidi.ring :as bidi-ring]
@@ -11,7 +12,7 @@
   service)
 
 (defn- start-service
-  [{:keys [id port routes] :as service} routes]
+  [{:keys [id port routes] :as service}]
   (log/info (str "Starting " id " on port " port "..."))
   (try
     (let [handler (bidi-ring/make-handler routes)
@@ -38,15 +39,17 @@
   (start [this]
     (if server
       (already-started this)
-      (start-service this routes)))
+      (start-service this)))
   (stop [this]
     (if server
       (stop-service this)
       (already-stopped this))))
 
 (defn yada-service
-  [{:keys [port] :as config} routes]
-  {:pre [(integer? port)
+  [{:keys [id port] :as config} routes]
+  {:pre [(string? id)
+         (not (str/blank? id))
+         (integer? port)
          (> port 0)
          (vector? routes)]}
-  (component/using (map->YadaService (assoc config :routes routes)) []))
+  (map->YadaService (assoc config :routes routes)))
